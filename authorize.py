@@ -21,10 +21,26 @@ def authenticate_google_calendar():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(credentials_path, SCOPES)
-            creds = flow.run_local_server(port=0)
+            creds = flow.run_local_server(port=0, authorization_prompt_message='Please log in with your business email.')
 
         # Save the credentials for future use
         with open(token_path, 'wb') as token:
             pickle.dump(creds, token)
 
     return creds
+
+def test_token(creds):
+    from googleapiclient.discovery import build
+    try:
+        service = build('calendar', 'v3', credentials=creds)
+        # Make a simple API call to check validity
+        calendars = service.calendarList().list().execute()
+        print("Authorization successful! Calendars retrieved:")
+        for calendar in calendars['items']:
+            print(f"Calendar: {calendar['summary']}")
+    except Exception as e:
+        print(f"Error validating credentials: {e}")
+
+if __name__ == '__main__':
+    creds = authenticate_google_calendar()
+    test_token(creds)
