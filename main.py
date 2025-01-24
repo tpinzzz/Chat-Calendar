@@ -18,12 +18,14 @@ if __name__ == '__main__':
     next_week_end = (datetime.utcnow() + timedelta(days=14)).isoformat() + 'Z'
     get_upcoming_events(service, start_date=next_week_start, end_date=next_week_end)
 
-    # Example: Create a test event
+    # Example: Create a test event using the timeZone field
     print("Creating a new event...")
+
     create_event(
         service,
         summary="Test Event",
-        start_time="2025-01-25T10:00:00Z",
-        end_time="2025-01-25T11:00:00Z",
-        description="This is a test event."
+        start_time="2025-01-24T12:30:00",
+        end_time="2025-01-24T13:00:00",
+        description="This is when I plan to get my hair fixed.",
+        timeZone="America/New_York"  # Specify the time zone directly
     )

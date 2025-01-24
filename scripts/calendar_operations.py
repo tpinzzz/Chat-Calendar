@@ -25,11 +25,11 @@ def get_upcoming_events(service, start_date=None, end_date=None):
         print(f"{start}: {event.get('summary', 'No Title')}")
     return events
 
-def create_event(service, calendar_id='primary', summary=None, start_time=None, end_time=None, description=None):
+def create_event(service, calendar_id='primary', summary=None, start_time=None, end_time=None, description=None, timeZone="UTC"):
     event = {
         'summary': summary,
-        'start': {'dateTime': start_time, 'timeZone': 'UTC'},
-        'end': {'dateTime': end_time, 'timeZone': 'UTC'},
+        'start': {'dateTime': start_time, 'timeZone': timeZone},  # Use dynamic timeZone
+        'end': {'dateTime': end_time, 'timeZone': timeZone},      # Use dynamic timeZone
         'description': description,
     }
     event_result = service.events().insert(calendarId=calendar_id, body=event).execute()
